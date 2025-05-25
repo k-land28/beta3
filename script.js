@@ -52,12 +52,12 @@ function generateRandomQuestion(mode) {
   let question = {};
 
   if (mode === 'open_none') {
-    hero = positions[Math.floor(Math.random() * positions.length)];
-    const correctAction = openRangeData?.[hero]?.[hand] || 'Fold';
-
+    const validOpeners = positions.filter(p => p !== 'BB');
+    hero = validOpeners[Math.floor(Math.random() * validOpeners.length)];
+  
     question = {
       situation: `${hero}からOpen Raiseしますか？`,
-      correct: correctAction,
+      correct: 'Raise',
       choices: ['Raise', 'Fold'],
       actionPosition: hero,
       stage: 'open_none'

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Preflop Trainer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+</head>
+<body>
+  <h1>Preflop Trainer</h1>
+
+  <div id="tabs">
+    <button class="tab-button active" data-mode="open_none">Open Raise</button>
+    <button class="tab-button" data-mode="vs_open">VS Open</button>
+    <button class="tab-button" data-mode="vs_3bet">VS 3Bet</button>
+    <button class="tab-button" data-mode="bb_defense">BB Defense</button>
+  </div>
+
+  <div id="table" class="table"></div>
+
+  <p id="situationText"></p>
+  <p id="handText"></p>
+  <div id="actionButtons"></div>
+  <p id="resultText"></p>
+  <button id="nextButton">NEXT</button>
+
+  <script src="script.js"></script>
+</body>
+</html>

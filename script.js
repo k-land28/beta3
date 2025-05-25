@@ -1,7 +1,20 @@
 'use strict';
 
 const positions = ['UTG', 'MP', 'CO', 'BTN', 'SB', 'BB'];
+const hands = ['AA', 'KK', 'QQ', 'JJ', 'AKs', 'AQo', 'A5s', 'KJo', 'T9s'];
 
+let openRangeData = {};
+let currentMode = 'open_none';
+let currentQuestion = null;
+
+const tableEl = document.getElementById('table');
+const situationText = document.getElementById('situationText');
+const handText = document.getElementById('handText');
+const actionButtons = document.getElementById('actionButtons');
+const resultText = document.getElementById('resultText');
+const nextButton = document.getElementById('nextButton');
+nextButton.textContent = 'NEXT';
+const tabs = document.querySelectorAll('.tab-button');
 
 function isBefore(p1, p2) {
   return positions.indexOf(p1) < positions.indexOf(p2);
@@ -9,17 +22,8 @@ function isBefore(p1, p2) {
 
 function getValidPositions(before = null) {
   const idx = before ? positions.indexOf(before) : positions.indexOf('SB');
-  return positions.slice(0, idx); // exclude SB, BB
+  return positions.slice(0, idx);
 }
-
-let openRangeData = {};
-
-fetch('open_range.json')
-  .then(response => response.json())
-  .then(data => {
-    openRangeData = data;
-    switchMode(currentMode); // 初期表示
-  });
 
 function generateRandomQuestion(mode) {
   const hand = hands[Math.floor(Math.random() * hands.length)];
@@ -28,8 +32,7 @@ function generateRandomQuestion(mode) {
 
   if (mode === 'open_none') {
     hero = positions[Math.floor(Math.random() * positions.length)];
-    const correctAction =
-      openRangeData[hero]?.[hand] || 'Fold'; // データなければFold扱い
+    const correctAction = openRangeData?.[hero]?.[hand] || 'Fold';
 
     question = {
       situation: `${hero}からOpen Raiseしますか？`,
@@ -60,7 +63,6 @@ function generateRandomQuestion(mode) {
 
   else if (mode === 'vs_3bet') {
     if (Math.random() < 0.5) {
-      // 自分がUTGでオープン → 相手が3Bet
       hero = 'UTG';
       const valid3Bettors = positions.filter(p => isBefore(hero, p) && p !== 'BB');
       threeBetPos = valid3Bettors[Math.floor(Math.random() * valid3Bettors.length)];
@@ -75,7 +77,6 @@ function generateRandomQuestion(mode) {
         stage: 'vs_3bet'
       };
     } else {
-      // UTGがOpen → 他人が3Bet → 自分が対応
       openPos = 'UTG';
       const valid3Bettors = positions.filter(p => isBefore(openPos, p));
       threeBetPos = valid3Bettors[Math.floor(Math.random() * valid3Bettors.length)];
@@ -110,18 +111,6 @@ function generateRandomQuestion(mode) {
 
   return { ...question, hand };
 }
-
-let currentMode = 'open_none';
-let currentQuestion = null;
-
-const tableEl = document.getElementById('table');
-const situationText = document.getElementById('situationText');
-const handText = document.getElementById('handText');
-const actionButtons = document.getElementById('actionButtons');
-const resultText = document.getElementById('resultText');
-const nextButton = document.getElementById('nextButton');
-nextButton.textContent = 'NEXT';
-const tabs = document.querySelectorAll('.tab-button');
 
 function clearPositions() {
   tableEl.innerHTML = '';
@@ -223,4 +212,16 @@ tabs.forEach(tab => {
 });
 
 nextButton.addEventListener('click', displayQuestion);
-window.addEventListener('load', () => switchMode(currentMode));
+
+// 初期化：JSON読み込み後にスタート
+window.addEventListener('load', () => {
+  fetch('open_range.json')
+    .then(res => res.json())
+    .then(data => {
+      openRangeData = data;
+      switchMode(currentMode);
+    })
+    .catch(err => {
+      console.error('open_range.jsonの読み込みに失敗しました:', err);
+    });
+});

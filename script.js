@@ -1,7 +1,7 @@
 'use strict';
 
 const positions = ['UTG', 'MP', 'CO', 'BTN', 'SB', 'BB'];
-const hands = ['AA', 'KK', 'QQ', 'JJ', 'AKs', 'AQo', 'A5s', 'KJo', 'T9s'];
+const hands = ['AA', 'KK', 'QQ', 'JJ', 'AKs', 'AQo', 'A5s', 'KJo', 'T9s', '72o'];
 
 let openRangeData = {};
 let currentMode = 'open_none';

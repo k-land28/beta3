@@ -1,7 +1,7 @@
 'use strict';
 
 const positions = ['UTG', 'MP', 'CO', 'BTN', 'SB', 'BB'];
-const hands = ['AA', 'KK', 'QQ', 'JJ', 'AKs', 'AQo', 'A5s', 'KJo', 'T9s'];
+
 
 function isBefore(p1, p2) {
   return positions.indexOf(p1) < positions.indexOf(p2);

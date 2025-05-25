@@ -1,7 +1,28 @@
 'use strict';
 
 const positions = ['UTG', 'MP', 'CO', 'BTN', 'SB', 'BB'];
-const hands = ['AQo', 'A5s', 'KJo', 'T9s', '72o'];
+const hands = generateAllHands();
+
+function generateAllHands() {
+  const ranks = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
+  const result = [];
+
+  for (let i = 0; i < ranks.length; i++) {
+    for (let j = 0; j < ranks.length; j++) {
+      const r1 = ranks[i];
+      const r2 = ranks[j];
+      if (i < j) {
+        result.push(`${r1}${r2}s`); // スーテッド
+      } else if (i > j) {
+        result.push(`${r2}${r1}o`); // オフスート
+      } else {
+        result.push(`${r1}${r2}`);  // ペア（例：AA, KK）
+      }
+    }
+  }
+
+  return result;
+}
 
 let openRangeData = {};
 let currentMode = 'open_none';

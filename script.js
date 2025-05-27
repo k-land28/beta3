@@ -102,7 +102,7 @@ function buildVs3BetHandsList(rangeData) {
   return list;
 }
 
-// BBdefence
+// BBdefense
 async function loadBbdefenseRange() {
   try {
     const res = await fetch('bbdefense.json');

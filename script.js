@@ -234,8 +234,8 @@ function generateBbdefenseQuestion() {
     situation: `${item.opener}が${item.size}でオープン。あなたはBB。ハンド：${item.hand}。アクションは？`,
     correct: item.correct,
     choices: [
-      'Fold',
       'Call',
+      'Fold',
       '3Bet / Fold 4Bet',
       '3Bet / Call 4Bet',
       '3Bet / Raise 4Bet'

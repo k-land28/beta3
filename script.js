@@ -324,7 +324,7 @@ async function displayQuestion() {
       await loadVs3BetRange();
     }
     currentQuestion = generateVs3BetQuestion();
-      } else if (currentMode === 'bbdefense') {
+  } else if (currentMode === 'bbdefense') {
     if (!bbdefenseRangeData) {
       await loadBbdefenseRange();
     }

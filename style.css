@@ -53,6 +53,15 @@ body {
   color: #0ff;
   box-shadow: 0 0 10px #0ff;
   font-weight: bold;
+  user-select: none;
+}
+
+/* 自分のポジションの強調表示 */
+.position.active-position {
+  background-color: #00ffffdd;
+  box-shadow: 0 0 15px 5px #00ffffcc;
+  color: #000; /* 蛍光色背景なので文字は黒に */
+  font-weight: bolder;
 }
 
 #actionButtons button,

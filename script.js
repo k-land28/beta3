@@ -277,8 +277,8 @@ function renderPositions(selectedPosition) {
   const cx = W / 2;
   const cy = H / 2;
 
-  const rx = W / 2 * 0.78;
-  const ry = H / 2 * 0.78;
+  const rx = W / 2 * 0.75;
+  const ry = H / 2 * 0.75;
 
   const selfIndex = positions.indexOf(selectedPosition);
   if (selfIndex < 0) {

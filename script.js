@@ -1,4 +1,3 @@
-
 'use strict';
 
 const positions = ['EP', 'MP', 'CO', 'BTN', 'SB', 'BB'];
@@ -148,7 +147,7 @@ function generateOpenraiseQuestion() {
   const item = allOpenraiseHandsList[Math.floor(Math.random() * allOpenraiseHandsList.length)];
 
   return {
-    situation: `${item.position}からOpen Raiseしますか？ハンド：${item.hand}`,
+    situation: `${item.position}からOpen Raiseしますか？`,
     correct: item.correct,
     choices: ['Raise', 'Fold'],
     position: item.position,
@@ -172,7 +171,7 @@ function generateVsOpenQuestion() {
   const item = allVsOpenHandsList[Math.floor(Math.random() * allVsOpenHandsList.length)];
 
   return {
-    situation: `${item.opener}がオープンした状況で、${item.position}のあなたのハンド：${item.hand}`,
+    situation: `${item.opener}がOpenRaiseしました。${item.position}のアクションは？`,
     correct: item.correct,
     choices: [
       'Call',
@@ -203,7 +202,7 @@ function generateVs3BetQuestion() {
   const item = allVs3BetHandsList[Math.floor(Math.random() * allVs3BetHandsList.length)];
 
   return {
-    situation: `${item.opener}からオープンし、${item.threeBetter}が3Betしてきた状況で、あなたのハンド：${item.hand}`,
+    situation: `${item.opener}からOpenRaiseすると、${item.threeBetter}が3Betしました。アクションは？`,
     correct: item.correct,
     choices: [
       'Call',
@@ -234,7 +233,7 @@ function generateBbdefenseQuestion() {
   const item = allBbdefenseHandsList[Math.floor(Math.random() * allBbdefenseHandsList.length)];
 
   return {
-    situation: `${item.opener}が${item.size}でオープン。あなたはBB。ハンド：${item.hand}。アクションは？`,
+    situation: `${item.opener}が${item.size}のOpenRaiseをしました。BBのアクションは？`,
     correct: item.correct,
     choices: [
       'Call',
@@ -247,17 +246,6 @@ function generateBbdefenseQuestion() {
     opener:item.opener,
     hand: item.hand,
     stage: 'bbdefense'
-  };
-}
-
-function generateRandomQuestion(mode) {
-  return {
-    situation: `モード「${mode}」の問題をまだ実装していません。`,
-    correct: null,
-    choices: [],
-    position: null,
-    hand: null,
-    stage: mode
   };
 }
 
@@ -348,14 +336,14 @@ async function displayQuestion() {
   handText.style.fontWeight = 'bold';
   resultText.textContent = '';
   actionButtons.innerHTML = '';
-  
+
   const contentElements = [situationText, handText, actionButtons];
   contentElements.forEach(el => {
-    el.classList.remove('fade-slide-in'); // 前のを一旦消す
-    void el.offsetWidth; // 再描画トリガー
-    el.classList.add('fade-slide-in');
-  });
-
+  el.classList.remove('fade-slide-in'); // 前のを一旦消す
+  void el.offsetWidth; // 再描画トリガー
+  el.classList.add('fade-slide-in');
+});
+  
  renderPositions(q.position, q.opener || q.threeBetter || null);
 
   q.choices.forEach(choice => {

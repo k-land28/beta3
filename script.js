@@ -1,3 +1,4 @@
+
 'use strict';
 
 const positions = ['EP', 'MP', 'CO', 'BTN', 'SB', 'BB'];
@@ -181,6 +182,7 @@ function generateVsOpenQuestion() {
       '3Bet / Raise 4Bet'
     ],
     position: item.position,
+    opener:item.opener,
     hand: item.hand,
     stage: 'vs_open'
   };
@@ -211,6 +213,7 @@ function generateVs3BetQuestion() {
       '3Bet / Raise 4Bet'
     ],
     position: item.opener,
+    threeBetter:item.threeBetter,
     hand: item.hand,
     stage: 'vs_3bet'
   };
@@ -241,6 +244,7 @@ function generateBbdefenseQuestion() {
       '3Bet / Raise 4Bet'
     ],
     position: 'BB',
+    opener:item.opener,
     hand: item.hand,
     stage: 'bbdefense'
   };
@@ -268,7 +272,7 @@ const nextButton = document.getElementById('nextButton');
 const tabs = document.querySelectorAll('.tab-button');
 const table = document.getElementById('table');
 
-function renderPositions(selectedPosition) {
+function renderPositions(selectedPosition, enemyPosition = null) {
   table.innerHTML = '';
 
   const W = table.clientWidth;
@@ -303,6 +307,10 @@ function renderPositions(selectedPosition) {
     if (pos === selectedPosition) {
       div.classList.add('active-position');
     }
+       
+    if (pos === enemyPosition) {
+      div.classList.add('enemy-position');
+    }
 
     table.appendChild(div);
   });
@@ -335,11 +343,20 @@ async function displayQuestion() {
 
   const q = currentQuestion;
   situationText.textContent = q.situation;
-  handText.textContent = '';
+  handText.textContent = `あなたのハンド: ${q.hand}`;
+  handText.style.fontSize = '24px';
+  handText.style.fontWeight = 'bold';
   resultText.textContent = '';
   actionButtons.innerHTML = '';
+  
+  const contentElements = [situationText, handText, actionButtons];
+  contentElements.forEach(el => {
+    el.classList.remove('fade-slide-in'); // 前のを一旦消す
+    void el.offsetWidth; // 再描画トリガー
+    el.classList.add('fade-slide-in');
+  });
 
-  renderPositions(q.position);
+ renderPositions(q.position, q.opener || q.threeBetter || null);
 
   q.choices.forEach(choice => {
     const btn = document.createElement('button');
@@ -352,6 +369,7 @@ async function displayQuestion() {
       btn.classList.add('raise');
     }
     btn.addEventListener('click', () => {
+      if (actionButtons.querySelector('.disabled')) return;
       if (choice === q.correct) {
         resultText.style.color = '#0faa00';
         resultText.textContent = '正解！🎉';
@@ -359,6 +377,7 @@ async function displayQuestion() {
         resultText.style.color = '#ff2200';
         resultText.textContent = `不正解。正解は「${q.correct}」です。`;
       }
+      actionButtons.querySelectorAll('button').forEach(b => b.classList.add('disabled'));
     });
     actionButtons.appendChild(btn);
   });

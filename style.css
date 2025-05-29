@@ -113,3 +113,17 @@ body {
   margin-top: 1rem;
   font-weight: bold;
 }
+
+.fade-slide-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeSlideIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

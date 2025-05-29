@@ -399,4 +399,10 @@ tabs.forEach(tab => {
 
 nextButton.addEventListener('click', displayQuestion);
 
-window.addEventListener('load', () => switchMode(currentMode));
+window.addEventListener('load', () => {
+  const splash = document.getElementById('splashScreen');
+  setTimeout(() => {
+    splash.classList.add('hidden');
+    switchMode(currentMode); // ←通常の表示処理を始める
+  }, 1200); // 1.2秒くらい表示
+});
